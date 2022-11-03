@@ -3,13 +3,12 @@ name: 自动打卡
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 7-11 * * *"
+    - cron: "0 0-3 * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TZ: "Asia/Shanghai"
       RUN_ENV: "production" # within ['production', 'development']
       POWER: 16
     steps:
