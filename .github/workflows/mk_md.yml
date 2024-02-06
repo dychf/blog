@@ -38,3 +38,17 @@ jobs:
         git push origin HEAD:${{ github.ref_name }}
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    - name: Copy file to another repository
+      run: |
+        # cd ..
+        git clone https://github.com/dychf/dychf.github.io.git
+        echo ls
+        echo pwd
+        # cp md/ ./dychf.github.io.git/source/_posts/
+        # cd target-repository
+        # git config user.name 'your-username'
+        # git config user.email 'your-email@example.com'
+        # git add .
+        # git commit -m "Add file"
+        # git push origin main
