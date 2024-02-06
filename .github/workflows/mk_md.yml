@@ -45,10 +45,11 @@ jobs:
         git clone https://github.com/dychf/dychf.github.io.git
         cp ./automation/md/* ./dychf.github.io/source/_posts/
         cd dychf.github.io
-        git config user.name 'haifeng'
-        git config user.email '1353120323@qq.com'
+        git config --global user.name 'haifeng'
+        git config --global user.email '1353120323@qq.com'
         git add .
         git commit -m "Add file"
-        git push git@github.com:dychf/dychf.github.io.git master 
+        # git push git@github.com:dychf/dychf.github.io.git 
+        git push
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
