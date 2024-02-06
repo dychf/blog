@@ -15,15 +15,18 @@ tasks = [
 ]
 
 # Markdown表格的标题和头部
-table_header = """# My Daily Report
+table_header = f"""
+---
+title: My Daily Report {current_date_time}
+---
 
-Date: {date}
+Date: {current_date_time}
 
 ## Tasks Table
 
 | Task | Description | Status |
 |------|-------------|--------|
-""".format(date=current_date_time)
+"""
 
 # 使用for循环生成表格行
 table_rows = ""
