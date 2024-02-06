@@ -12,6 +12,33 @@ jobs:
     steps:
     - name: Setup Node.js environment
       uses: actions/setup-node@v4.0.1
+
+    - name: Cache NPM dependencies
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          
+    - name: Install Hexo CLI
+      run: npm install -g hexo-cli
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate static pages
+      run: hexo generate
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name 'action'
+        git config --global user.email 'action@example.com'
+        git add .
+        git commit -m "Auto-update files"
+        git push origin HEAD:${{ github.ref_name }}
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
           
     - name: Hexo Action
       # You may pin to the exact commit or the version.
