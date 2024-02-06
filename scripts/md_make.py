@@ -2,7 +2,7 @@
 import datetime
 
 # 获取当前日期
-current_date = datetime.datetime.now().strftime('%Y-%m-%d')
+current_date_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 # 创建Markdown文件的名称（例如：2023-04-01.md）
 filename = f"{current_date}.md"
