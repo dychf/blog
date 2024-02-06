@@ -52,4 +52,4 @@ jobs:
         git push git@github.com:dychf/dychf.github.io.git 
         # git push origin
       env:
-        GH_TOKEN: ${{ secrets.HEXO_DEPLOY_PRI }}
+        GH_TOKEN: ${{ secrets.PAGE }}
