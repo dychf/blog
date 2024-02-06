@@ -1,4 +1,4 @@
-name: Run Python Script Every Minute
+name: 自动生成markdown文件测试
 
 on:
   schedule:
