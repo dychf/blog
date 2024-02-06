@@ -45,8 +45,8 @@ jobs:
         git clone https://github.com/dychf/dychf.github.io.git
         cp ./automation/md/* ./dychf.github.io/source/_posts/
         cd dychf.github.io
-        git config user.name 'your-username'
-        git config user.email 'your-email@example.com'
+        git config user.name 'haifeng'
+        git config user.email '1353120323@qq.com'
         git add .
         git commit -m "Add file"
         git push git@github.com:dychf/dychf.github.io.git master 
