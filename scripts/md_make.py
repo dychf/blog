@@ -23,7 +23,7 @@ Date: {date}
 
 | Task | Description | Status |
 |------|-------------|--------|
-""".format(date=current_date)
+""".format(date=current_date_time)
 
 # 使用for循环生成表格行
 table_rows = ""
