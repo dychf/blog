@@ -41,10 +41,12 @@ jobs:
 
     - name: Copy file to another repository
       run: |
-        # cd ..
+        ls
         git clone https://github.com/dychf/dychf.github.io.git
-        echo ls
-        echo pwd
+        pwd
+        cd ..
+        ls
+        pwd
         # cp md/ ./dychf.github.io.git/source/_posts/
         # cd target-repository
         # git config user.name 'your-username'
