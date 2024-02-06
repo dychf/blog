@@ -21,7 +21,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         # 如果你有依赖项，请在此处或在 separate requirements.txt 文件中安装
-        # pip install -r requirements.txt
+        # pip install -r requirements-punch.txt
 
     - name: Execute Python script
-      run: python md_make.py  # 替换成你的脚本文件名
+      run: python scripts/md_make.py  # 替换成你的脚本文件名
