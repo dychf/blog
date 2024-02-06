@@ -49,6 +49,6 @@ jobs:
         git config user.email 'your-email@example.com'
         git add .
         git commit -m "Add file"
-        git push https://github.com/dychf/dychf.github.io.git master 
+        git push git@github.com:dychf/dychf.github.io.git master 
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
