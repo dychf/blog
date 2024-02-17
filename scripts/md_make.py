@@ -2,10 +2,10 @@
 import datetime
 
 # 获取当前日期
-current_date_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+current_date = datetime.datetime.now().strftime('%Y-%m-%d')
 
 # 创建Markdown文件的名称（例如：2023-04-01.md）
-filename = f"md/{current_date_time}.md"
+filename = f"md/{current_date}.md"
 
 # 任务列表数据，每个任务都是一个字典
 tasks = [
@@ -17,10 +17,10 @@ tasks = [
 # Markdown表格的标题和头部
 table_header = f"""
 ---
-title: My Daily Report {current_date_time}
+title: My Daily Report {current_date}
 ---
 
-Date: {current_date_time}
+Date: {current_date}
 
 ## Tasks Table
 
