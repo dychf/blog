@@ -29,15 +29,15 @@ jobs:
     - name: Execute Python script
       run: python scripts/md_make.py  # 替换成你的脚本文件名
 
-    - name: Commit and Push changes
-      run: |
-        git config --global user.name 'action'
-        git config --global user.email 'action@example.com'
-        git add .
-        git commit -m "Auto-update files"
-        git push origin HEAD:${{ github.ref_name }}
-      # env:
-      #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    # - name: Commit and Push changes
+    #   run: |
+    #     git config --global user.name 'action'
+    #     git config --global user.email 'action@example.com'
+    #     git add .
+    #     git commit -m "Auto-update files"
+    #     git push origin HEAD:${{ github.ref_name }}
+    #   # env:
+    #   #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Copy file to another repository
       run: |
