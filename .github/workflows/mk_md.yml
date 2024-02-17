@@ -3,7 +3,7 @@ name: 自动生成markdown文件测试
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 16 * * *'
 
 jobs:
   execute-python-script:
