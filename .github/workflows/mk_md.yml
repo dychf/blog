@@ -36,8 +36,8 @@ jobs:
         git add .
         git commit -m "Auto-update files"
         git push origin HEAD:${{ github.ref_name }}
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      # env:
+      #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Copy file to another repository
       run: |
