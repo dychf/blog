@@ -49,8 +49,8 @@ jobs:
         git config --global user.email '1353120323@qq.com'
         git add .
         git commit -m "Add file"
-        # git push git@github.com:dychf/dychf.github.io.git 
-        git push --force --quiet "https://${{ secrets.PAGE }}@$GITHUB_REPO" master:master
+        git push git@github.com:dychf/dychf.github.io.git 
+        # git push --force --quiet "https://${{ secrets.PAGE }}@$GITHUB_REPO" master:master
         # git push origin
       env:
         # Github 仓库
