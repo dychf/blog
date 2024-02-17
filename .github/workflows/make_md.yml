@@ -1,4 +1,4 @@
-name: 自动生成markdown文件测试
+name: make markdown
 
 on:
   workflow_dispatch:
