@@ -1,4 +1,4 @@
-name: make markdown
+name: 生成markdown
 
 on:
   workflow_dispatch:
