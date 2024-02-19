@@ -18,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'  # 选择你需要的 Python 版本
+        python-version: '3.9'  
 
     - name: Install dependencies
       run: |
@@ -30,29 +30,26 @@ jobs:
     - name: Execute Python script
       run: python scripts/md_make.py  # 替换成你的脚本文件名
 
-    # - name: Commit and Push changes
-    #   run: |
-    #     git config --global user.name 'action'
-    #     git config --global user.email 'action@example.com'
-    #     git add .
-    #     git commit -m "Auto-update files"
-    #     git push origin HEAD:${{ github.ref_name }}
-    #   # env:
-    #   #   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name 'haifeng'
+        git config --global user.email '1353120323@qq.com'
+        git pull
+        git add .
+        git commit -m "Auto-update files"
+        git push origin 
 
     - name: Copy file to another repository
       run: |
         cd ..
         git clone https://github.com/dychf/dychf.github.io.git
-        cp ./automation/md/* ./dychf.github.io/source/_posts/
+        cp ./automation/md/* ./dychf.github.io/docs/
         cd dychf.github.io
         git config --global user.name 'haifeng'
         git config --global user.email '1353120323@qq.com'
+        git pull
         git add .
-        git commit -m "Add file"
-        # git push git@github.com:dychf/dychf.github.io.git 
+        git commit -m "Add file from automation"
         git push --force --quiet "https://${{ secrets.PAGE }}@$GITHUB_REPO" master:master
-        # git push origin
       env:
-        # Github 仓库
         GITHUB_REPO: github.com/dychf/dychf.github.io
