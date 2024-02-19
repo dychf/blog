@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "automation"
+version = "0.1.0"
+description = ""
+authors = ["haifeng <1353120323@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+lxml = "^5.1.0"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
