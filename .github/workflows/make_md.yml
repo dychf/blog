@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 16 * * *'
+    - cron: '0 */1 * * *'
 
 jobs:
   execute-python-script:
@@ -28,8 +29,8 @@ jobs:
         poetry install
 
     - name: Execute Python script
-      run: python scripts/md_make.py  # 替换成你的脚本文件名
-
+      run: python scripts/md_make.py  
+      
     - name: Commit and Push changes
       run: |
         git config --global user.name 'haifeng'
