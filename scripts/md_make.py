@@ -17,14 +17,10 @@ tasks = [
 
 # Markdown表格的标题和头部
 table_header = f"""
----
-title: My Daily Report {current_date}
----
 
+# title: My Daily Report {current_date}
 Date: {current_time}
-
 ## Tasks Table
-
 | Task | Description | Status |
 |------|-------------|--------|
 """
