@@ -28,7 +28,7 @@ jobs:
         poetry install
 
     - name: Execute Python Script
-      run: python scripts/md_make.py  
+      run: python src/md_make.py  
       
     - name: Commit and Push Changes
       run: |
