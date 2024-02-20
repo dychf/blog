@@ -19,6 +19,8 @@ filename = f"{dirs}{current_time}.md"
 table_header = f"""
 # Report {current_time}
 Date: {current_time}
+
+
 """
 
 
