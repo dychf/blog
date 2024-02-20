@@ -22,7 +22,7 @@ table_header = f"""
 Date: {current_time}
 ## Tasks Table
 | Task | Description | Status |
-|------|-------------|--------|
+|------|--------------|--------|
 """
 
 # 使用for循环生成表格行
