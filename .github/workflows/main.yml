@@ -1,0 +1,32 @@
+name: 推送更新
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]  
+
+jobs:
+  execute-python-script:
+    runs-on: ubuntu-latest
+    env:
+      TZ: 'Asia/Shanghai'
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Copy File to github.io
+      env:
+        GITHUB_REPO: github.com/dychf/dychf.github.io
+      run: |
+        cd ..
+        git clone https://github.com/dychf/dychf.github.io.git
+        rm -f ./dychf.github.io/docs/*
+        cp -r ./blog/md/* ./dychf.github.io/docs/
+        cd dychf.github.io
+        git config --global user.name 'haifeng'
+        git config --global user.email '1353120323@qq.com'
+        git pull
+        git add .
+        git commit -m "push file from blog"
+        git push --force --quiet "https://${{ secrets.PAGE }}@$GITHUB_REPO" master:master
