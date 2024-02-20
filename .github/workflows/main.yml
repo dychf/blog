@@ -21,8 +21,8 @@ jobs:
       run: |
         cd ..
         git clone https://github.com/dychf/dychf.github.io.git
-        rm -rf ./dychf.github.io/docs/
-        cp -r ./blog/md/* ./dychf.github.io/docs/
+        rm -rf ./dychf.github.io/docs/*
+        cp -r ./blog/docs/* ./dychf.github.io/docs/
         cd dychf.github.io
         git config --global user.name 'haifeng'
         git config --global user.email '1353120323@qq.com'
