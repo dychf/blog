@@ -3,7 +3,7 @@ name: daily
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '0 */1 * * *'
 
 jobs:
   execute-python-script:
