@@ -1,7 +1,3 @@
-import requests
-import json
-import jsonpath
-import numpy as np
 
 url = 'https://gushitong.baidu.com/opendata'
 

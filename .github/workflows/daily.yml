@@ -30,7 +30,7 @@ jobs:
     - name: Execute Python Script
       run: |
         source .venv/bin/activate
-        python src/stock/md_make.py  
+        python src/main.py  
       
     - name: Commit and Push Changes
       run: |
