@@ -4,12 +4,12 @@ from .stock import Stock
 
 
 tempalte = """
-## {}
-- 代码：{}
-- PE：{}
-- 价格：{}
-- 买入点：{}
-- 卖出点：{}
+### {}
+* 代码：{}
+* PE：{}
+* 价格：{}
+* 买入点：{}
+* 卖出点：{}
 """
 
 def create_md(stock_codes):
@@ -18,9 +18,10 @@ def create_md(stock_codes):
         os.makedirs(dirs)
 
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     filename = f"{dirs}{current_date}.md"
 
-    header = f"# {current_date} \n"
+    header = f"# {current_date} \n 更新时间：{current_time} \n"
 
     content = ""
     for code in stock_codes:
