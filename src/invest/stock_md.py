@@ -13,15 +13,15 @@ chart_url_temp = 'https://quickchart.io/chart?c={{"type": "line", "data": {{"lab
 netprofit_line_temp = """
 ### 利润曲线
 
-![利润曲线]({})
+<img src="{}" style="width: 400px; height: auto;">
 """
 
 
 table_head_temp = """
 ### 估值
 
-| 日期 | 价格 | 买入    | 卖出    |
-|------|------|------|------|"""
+|    日期    |    价格    |    买入    |    卖出    |    
+|:------------:|:------------:|:------------:|:------------:|"""
 
 table_row_temp = """
 |{}|{}|{}|{}|
