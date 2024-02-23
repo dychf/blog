@@ -12,13 +12,20 @@ tempalte = """
 * 卖出点：{}
 """
 
+table_head = """
+| 日期 | 价格 | 买入    | 买入    |
+|---- --|------|------|------|
+"""
+
+
 def create_md(stock_codes):
+
     dirs = "../docs/公司估值/"
     if not os.path.exists(dirs):
         os.makedirs(dirs)
 
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{dirs}{current_date}.md"
 
     header = f"# {current_date} \n 更新时间：{current_time} \n"
