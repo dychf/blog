@@ -1,8 +1,13 @@
-import yaml
+from urllib.parse import quote
 
-def read_config():
-    with open('src/config.yaml', 'r') as file:
-        data = yaml.safe_load(file)
-    return data
-    
-config = read_config()
+
+def encoded_url(url):
+    """
+    对url进行编码
+    Args:
+        url:
+
+    Returns:
+
+    """
+    return quote(url, safe=':/?=&')

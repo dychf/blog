@@ -47,4 +47,9 @@ DCF方法的内涵就是把企业未来特定期间内的预期现金流还原�
 })
 
 
-![柱状图111](https://quickchart.io/chart?c={type: 'bar',data: {labels:['a', 'B','C'1,datasets:[{label:'Example',data:[5,10,1511111)
+![柱状图111](https://quickchart.io/chart?c={type: 'bar',data: {labels:['a', 'B','C'],datasets:[{label:'Example',data:[5,10,15]}]}})
+
+
+![柱状图111](https://quickchart.io/chart?c=%7B%22type%22%3A%20%22bar%22%2C%20%22data%22%3A%20%7B%22labels%22%3A%5B%22a%22%2C%20%22B%22%2C%22C%22%5D%2C%22datasets%22%3A%20%5B%7B%22label%22%3A%20%22Example%22%2C%22data%22%3A%20%5B5%2C10%2C15%5D%7D%5D%7D%7D)
+
+![柱状图111](https://quickchart.io/chart?c={"type": "bar", "data": {"labels": ["a", "B", "C"], "datasets": [{"label": "Example", "data": [5, 10, 15]}]}})

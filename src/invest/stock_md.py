@@ -13,7 +13,7 @@ tempalte = """
 """
 
 def create_md(stock_codes):
-    dirs = "docs/公司估值/"
+    dirs = "../docs/公司估值/"
     if not os.path.exists(dirs):
         os.makedirs(dirs)
 
