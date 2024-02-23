@@ -16,4 +16,35 @@ DCF方法的内涵就是把企业未来特定期间内的预期现金流还原�
 从基本的计算过程来看，DCF模型要比相对估值法更为复杂，主要原因是很多参数都要自己来设定，设定的过程中要考虑参数的合理性。我们先说一下几个参数，对于自由现金流D，为了方便计算我们可以直接选取净资产的收益，这个可以从年报中获得，贴现率r即为你持有该公司股份所期望的收益率，增长率则可以结合着公司自己的预测和市场对公司的看法来定一个值，有了这三个值就可以进行计算了，如果采用永续增长模型，一般采用与社会经济增长速度相当的值即可。
 
 
-![QuickChart](https://quickchart.io/chart?c={type:'bar',data:{labels:['January','February','March','April','May'],datasets:[{label:'Example Dataset',data:[65,59,80,81,56]}]})
+![QuickChart](https://quickchart.io/chart?c={type:'bar',data:{labels:['January','February','March','April','May'],datasets:{label:'Example Dataset',data:[65,59,80,81,56]}}})
+
+![QuickChart](https://quickchart.io/chart?c=%7Btype:'bar',data:%7Blabels:%5B'January','February','March','April','May'%5D,datasets:%5B%7Blabel:'Example%20Dataset',data:%5B65,59,80,81,56%5D%7D%5D%7D)
+
+
+![QuickChart](https://quickchart.io/chart?c={
+"type": "bar",
+"data": {
+"labels": [
+"January",
+"February",
+"March",
+"April",
+"May"
+],
+"datasets": [
+{
+"label": "Example Dataset",
+"data": [
+65,
+59,
+80,
+81,
+56
+]
+}
+]
+}
+})
+
+
+![柱状图111](https://quickchart.io/chart?c={type: 'bar',data: {labels:['a', 'B','C'1,datasets:[{label:'Example',data:[5,10,1511111)
