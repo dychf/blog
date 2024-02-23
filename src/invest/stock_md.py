@@ -47,8 +47,8 @@ def create_md(stock_code):
     table_row = table_row_temp.format(
         current_date,
         stock_info.market_price,
-        ideal_buy,
-        ideal_sell,
+        stock_info.ideal_buy,
+        stock_info.ideal_sell,
     )
 
     with open(filename, "w", encoding="utf-8") as md_file:
