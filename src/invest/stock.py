@@ -86,14 +86,12 @@ class Stock:
         self.market_price = float(currentPrice[0])  # 当前价格
         self.total_share_capital = round(float(totalShareCapital[0]) / 1e8, 2)  # 总股本
         self.capitalization = round(float(capitalization[0]) / 1e8, 2)  # 当前市值
-        self.netprofits = FY[0, -3:, 7]  # 近三年归母净利润
+        self.netprofits = [float(p) for p in FY[0, -3:, 7]]  # 近三年归母净利润
         self.growthrates = FY[0, -3:, 8]  # 近三年归母净利润增长率
 
     def valuation(self, PE):
 
-        netprofit_1 = np.average(
-            [float(p) for p in self.netprofits], weights=[0.2, 0.3, 0.5]
-        )
+        netprofit_1 = np.average(self.netprofits, weights=[0.2, 0.3, 0.5])
 
         growthrate_1 = np.average(
             [float(rate) for rate in self.growthrates], weights=[0.2, 0.3, 0.5]
@@ -102,7 +100,7 @@ class Stock:
         netprofit_3 = netprofit_1 * (1 + growthrate_1 * 0.01) ** 3  # 估算三年后利润
         valuation = netprofit_3 * PE  # 估值
         ideal_buy_v = valuation / 2  # 理想买点
-        ideal_sell_v = min(valuation * 1.5, netprofit_1 * 50)  # 理想卖点
+        ideal_sell_v = min(valuation * 1.5, ideal_buy_v * 1.2)  # 理想卖点
 
         return StockInfo(
             name=self.name,

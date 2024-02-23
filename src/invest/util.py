@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 def round_float_attributes(cls):
     """
     装饰器，保留两位小数
@@ -21,3 +23,10 @@ def price(market, equity):
     equity: 总股本
     """
     return round(market/equity, 2)
+
+
+def encoded_url(url):
+    """
+    对url进行编码
+    """
+    return quote(url, safe=":/?=&")

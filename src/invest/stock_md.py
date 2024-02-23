@@ -1,46 +1,58 @@
 import datetime
 import os
 from .stock import Stock
+from .util import encoded_url
 
-
-tempalte = """
+header_temp = """
 ### {}
 * 代码：{}
-* PE：{}
-* 价格：{}
-* 买入点：{}
-* 卖出点：{}
+* 简介：{}
 """
 
-table_head = """
-| 日期 | 价格 | 买入    | 买入    |
-|---- --|------|------|------|
+chart_url_temp = 'https://quickchart.io/chart?c={{"type": "line", "data": {{"labels": {labels}, "datasets": [{{"label": "归母净利润", "data": {data}}}]}}}}'
+netprofit_line_temp = """
+### 利润曲线
+
+![利润曲线]({})
 """
 
 
-def create_md(stock_codes):
+table_head_temp = """
+### 估值
 
+| 日期 | 价格 | 买入    | 卖出    |
+|------|------|------|------|"""
+
+table_row_temp = """
+|{}|{}|{}|{}|
+"""
+
+
+def create_md(stock_code):
     dirs = "../docs/公司估值/"
     if not os.path.exists(dirs):
         os.makedirs(dirs)
 
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename = f"{dirs}{current_date}.md"
 
-    header = f"# {current_date} \n 更新时间：{current_time} \n"
+    stock_info = Stock(stock_code).valuation(17)
 
-    content = ""
-    for code in stock_codes:
-        stock_info = Stock(code).valuation(17)
-        content += tempalte.format(
-            stock_info.name,
-            stock_info.code,
-            stock_info.PE,
-            stock_info.market_price,
-            stock_info.valuation_price,
-            stock_info.ideal_sell,
-        )
+    filename = "{}{}.md".format(dirs, stock_info.name)
+    header = header_temp.format(stock_info.name, stock_info.code, stock_info.name)
+    chart_url = chart_url_temp.format(
+        labels=["21", "22", "23"], data=stock_info.netprofits
+    )
+    netprofit_line = netprofit_line_temp.format(encoded_url(chart_url))
+    table_row = table_row_temp.format(
+        current_date,
+        stock_info.market_price,
+        stock_info.valuation_price,
+        stock_info.valuation_price * 1.2,
+    )
 
     with open(filename, "w", encoding="utf-8") as md_file:
-        md_file.write(header + content)
+        md_file.write(header)
+        md_file.write(netprofit_line)
+        md_file.write(table_head_temp)
+        md_file.write(table_row)
