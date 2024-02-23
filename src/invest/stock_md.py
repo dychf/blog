@@ -7,9 +7,6 @@ import re
 file_dir = "../docs/公司估值/"
 
 header_temp = """
-
-### {}
-
 `更新时间：{}`
 
 * 代码：{}
@@ -49,9 +46,7 @@ def create_md(stock_code):
     )
     chart_url = encoded_url(chart_url)
     if not os.path.exists(file_path):
-        header = header_temp.format(
-            stock_info.name, current_time, stock_info.code, stock_info.name
-        )
+        header = header_temp.format(current_time, stock_info.code, stock_info.name)
 
         netprofit_line = netprofit_line_temp.format(chart_url)
         table_row = table_row_temp.format(
