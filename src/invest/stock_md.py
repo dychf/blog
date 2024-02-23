@@ -76,8 +76,10 @@ def create_md(stock_code):
         )
 
         url = chart_url_temp.format(
-            labels=["88", "99", "00"], data=stock_info.netprofits
+            labels=[random.random(), random.random(), random.random()],
+            data=stock_info.netprofits,
         )
+        url = encoded_url(url)
         modified_text = re.sub(r'src="[^"]+"', 'src="{}"'.format(url), modified_text)
 
         new_row = "|2024-02-24|60.00|42.0|50.0|"
