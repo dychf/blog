@@ -76,17 +76,16 @@ def create_md(stock_code):
         )
 
         url = chart_url_temp.format(
-            labels=[random.random(), random.random(), random.random()],
+            labels=["22", "23", "24"],
             data=stock_info.netprofits,
         )
         url = encoded_url(url)
         modified_text = re.sub(r'src="[^"]+"', 'src="{}"'.format(url), modified_text)
 
         new_row = "|2024-02-24|60.00|42.0|50.0|"
-        modified_text = re.sub(
-            r"\|:------------:\|:------------:\|:------------:\|:------------:\|",
+        modified_text = original_text.replace(
+            "|:------------:|:------------:|:------------:|:------------:|",
             "|:------------:|:------------:|:------------:|:------------:|\n" + new_row,
-            modified_text,
         )
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(modified_text)
