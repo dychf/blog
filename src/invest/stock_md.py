@@ -28,11 +28,10 @@ table_head_temp = """
 ### 估值
 
 |    日期    |    价格    |    买入    |    卖出    |    
-|:------------:|:------------:|:------------:|:------------:|"""
-
-table_row_temp = """
-|{}|{}|{}|{}|
+|:------------:|:------------:|:------------:|:------------:|
 """
+
+table_row_temp = "|{}|{}|{}|{}|"
 
 
 def create_md(stock_code):
@@ -56,7 +55,7 @@ def create_md(stock_code):
 
         netprofit_line = netprofit_line_temp.format(chart_url)
         table_row = table_row_temp.format(
-            current_date,
+            current_time,
             stock_info.market_price,
             stock_info.ideal_buy,
             stock_info.ideal_sell,
@@ -82,7 +81,12 @@ def create_md(stock_code):
         url = encoded_url(url)
         modified_text = re.sub(r'src="[^"]+"', 'src="{}"'.format(url), modified_text)
 
-        new_row = "|2024-02-24|60.00|42.0|50.0|"
+        new_row = table_row_temp.format(
+            current_time,
+            stock_info.market_price,
+            stock_info.ideal_buy,
+            stock_info.ideal_sell,
+        )
         modified_text = original_text.replace(
             "|:------------:|:------------:|:------------:|:------------:|",
             "|:------------:|:------------:|:------------:|:------------:|\n" + new_row,
