@@ -71,8 +71,8 @@ def create_md(stock_code):
     else:
         with open(file_path, "r", encoding="utf-8") as md_file:
             md = md_file.read()
-        update_time_pattern = r"更新时间：\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})"
-        md = re.sub(update_time_pattern, "更新时间：{}".format(current_time), md)
+        update_time_pattern = r"\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})"
+        md = re.sub(update_time_pattern, current_time, md)
 
         md = re.sub(r'src="[^"]+"', 'src="{}"'.format(chart_url), md)
 
