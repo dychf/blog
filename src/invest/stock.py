@@ -22,6 +22,7 @@ class StockInfo:
     growthrate_1: float = attr.ib(0)
     industry_mean_pe: float = attr.ib(0)
     industry: str = attr.ib("")
+    main_business: str = attr.ib("")
     capitalization: float = attr.ib(0)
     market_price: float = attr.ib(0)
     valuation: float = attr.ib(0)
@@ -30,6 +31,9 @@ class StockInfo:
     ideal_sell_v: float = attr.ib(0)
     ideal_buy: float = attr.ib(0)
     ideal_sell: float = attr.ib(0)
+    avg_price: float = attr.ib(0)
+    max_price: float = attr.ib(0)
+    min_price: float = attr.ib(0)
 
 
 class Stock:
@@ -58,19 +62,46 @@ class Stock:
         # 总股本
         totalShareCapital = jsonpath.jsonpath(
             jsonobj,
-            "$..Result[1].DisplayData.resultData.tplData.result.minute_data.pankouinfos.origin_pankou.totalShareCapital",
+            "$.Result[1].DisplayData.resultData.tplData.result.minute_data.pankouinfos.origin_pankou.totalShareCapital",
         )
         # 当前市值
         capitalization = jsonpath.jsonpath(
             jsonobj,
-            "$..Result[1].DisplayData.resultData.tplData.result.minute_data.pankouinfos.origin_pankou.capitalization",
+            "$.Result[1].DisplayData.resultData.tplData.result.minute_data.pankouinfos.origin_pankou.capitalization",
         )
+
+        # 机构预测
+        avg_price = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[3].DisplayData.resultData.tplData.result.tabs[5].content.newCompany.organRating.avgPrice",
+        )
+        max_price = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[3].DisplayData.resultData.tplData.result.tabs[5].content.newCompany.organRating.maxPrice",
+        )
+        min_price = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[3].DisplayData.resultData.tplData.result.tabs[5].content.newCompany.organRating.minPrice",
+        )
+
         # 年报数据
         FY = jsonpath.jsonpath(
             jsonobj,
             "$.Result[3].DisplayData.resultData.tplData.result.tabs[4].content.profitSheetV2.chartInfo[4].body",
         )
         FY = np.asarray(FY)
+
+        # 所属行业
+        industry = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[3].DisplayData.resultData.tplData.result.tabs[5].content.companyInfo.issuedBy.industry",
+        )
+
+        # 主营业务
+        main_business = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[3].DisplayData.resultData.tplData.result.tabs[5].content.companyInfo.issuedBy.mainBusiness",
+        )
 
         self.name = name[0]  # 名称
         self.market_price = float(currentPrice[0])  # 当前价格
@@ -79,6 +110,11 @@ class Stock:
         self.netprofits = [float(p) for p in FY[0, -3:, 7]]  # 近三年归母净利润
         self.growthrates = FY[0, -3:, 8]  # 近三年归母净利润增长率
         self.period = [str(p) for p in FY[0, -3:, 0]]
+        self.avg_price = float(avg_price[0])
+        self.max_price = float(max_price[0])
+        self.min_price = float(min_price[0])
+        self.industry = industry[0]
+        self.main_business = main_business[0]
 
     def _industry_mean_pe(self):
         params = {key: value.format(code=self.code) for key, value in params_pe.items()}
@@ -88,12 +124,6 @@ class Stock:
             "$.Result[0].DisplayData.resultData.tplData.result.industryComparison.list[0].industryMean",
         )
         self.industry_mean_pe = float(industry_mean_pe[0])
-
-        industry = jsonpath.jsonpath(
-            jsonobj,
-            "$.Result[0].DisplayData.resultData.tplData.result.industryComparison.list[0].industry",
-        )
-        self.industry = industry[0]
 
     def valuation(self):
 
@@ -128,4 +158,8 @@ class Stock:
             ideal_sell_v=ideal_sell_v,
             ideal_buy=price(ideal_buy_v, self.total_share_capital),
             ideal_sell=price(ideal_sell_v, self.total_share_capital),
+            avg_price=self.avg_price,
+            max_price=self.max_price,
+            min_price=self.min_price,
+            main_business=self.main_business,
         )

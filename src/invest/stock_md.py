@@ -13,11 +13,18 @@ init_md = """
 
 * 代码：code
 * 所属行业：industry
-* 简介：introduction
+* 主营业务：main_business
 
-### 利润
+### 利润趋势
 
 <img src="netprofits_url" style="width: 400px; height: auto;">
+
+### 机构预测
+
+* 当前价：current_price
+* 目标均价：avg_price
+* 最高目标价：max_price
+* 最低目标价：min_price
 
 ### 估值
 
@@ -46,7 +53,7 @@ def add_row(date, md, stock):
             stock.ideal_buy,
             stock.ideal_sell,
             stock.industry_mean_pe,
-            stock.period[0] + "--" + stock.period[-1],
+            stock.period[0] + "—" + stock.period[-1],
         )
     )
     return md.replace(table_split, row)
@@ -71,15 +78,36 @@ def create_md(stock_code):
         md = md.replace("time", current_time)
         md = md.replace("code", stock_info.code)
         md = md.replace("industry", stock_info.industry)
-        md = md.replace("introduction", stock_info.name)
+        md = md.replace("main_business", stock_info.main_business)
         md = md.replace("netprofits_url", chart_url)
+        md = md.replace("current_price", str(stock_info.market_price))
+        md = md.replace("avg_price", str(stock_info.avg_price))
+        md = md.replace("max_price", str(stock_info.max_price))
+        md = md.replace("min_price", str(stock_info.min_price))
     else:
         with open(file_path, "r", encoding="utf-8") as md_file:
             md = md_file.read()
+
+        # 替换更新时间
         update_time_pattern = r"\s*(\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2})"
         md = re.sub(update_time_pattern, current_time, md)
 
+        # 替换利润趋势url
         md = re.sub(r'src="[^"]+"', 'src="{}"'.format(chart_url), md)
+
+        # 替换机构预测
+        md = re.sub(
+            r"当前价：\d+\.\d+", r"当前价：{}".format(stock_info.market_price), md
+        )
+        md = re.sub(
+            r"目标均价：\d+\.\d+", r"目标均价：{}".format(stock_info.avg_price), md
+        )
+        md = re.sub(
+            r"最高目标价：\d+\.\d+", r"最高目标价：{}".format(stock_info.max_price), md
+        )
+        md = re.sub(
+            r"最低目标价：\d+\.\d+", r"最低目标价：{}".format(stock_info.min_price), md
+        )
 
     md = add_row(current_date, md, stock_info)
     with open(file_path, "w", encoding="utf-8") as md_file:
