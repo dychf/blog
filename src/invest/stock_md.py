@@ -32,6 +32,8 @@ table_row_temp = "|{}|{}|{}|{}|"
 
 
 def add_row(date, md, stock):
+    if date in md:
+        return md
     row = (
         table_split
         + " \n "
