@@ -11,6 +11,8 @@ init_md = """
 
 `更新时间：time`
 
+### 基本信息
+
 * 代码：code
 * 所属行业：industry
 * 主营业务：main_business
