@@ -1,4 +1,4 @@
-# 自由现金流贴现法
+# DCF
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
