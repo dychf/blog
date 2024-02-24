@@ -13,6 +13,7 @@ class StockInfo:
     name: str = attr.ib("")
     code: str = attr.ib("")
     total_share_capital: float = attr.ib(0)
+    period: list[str] = attr.ib(factory=list)
     netprofits: list[float] = attr.ib(factory=list)
     netprofit_1: float = attr.ib(0)
     netprofit_3: float = attr.ib(0)
@@ -84,10 +85,11 @@ class Stock:
 
         self.name = name[0]  # 名称
         self.market_price = float(currentPrice[0])  # 当前价格
-        self.total_share_capital = round(float(totalShareCapital[0]) / 1e8, 2)  # 总股本
-        self.capitalization = round(float(capitalization[0]) / 1e8, 2)  # 当前市值
+        self.total_share_capital = float(totalShareCapital[0]) / 1e8  # 总股本
+        self.capitalization = float(capitalization[0]) / 1e8  # 当前市值
         self.netprofits = [float(p) for p in FY[0, -3:, 7]]  # 近三年归母净利润
         self.growthrates = FY[0, -3:, 8]  # 近三年归母净利润增长率
+        self.period = [str(p) for p in FY[0, -3:, 0]]
 
     def valuation(self, PE):
 
@@ -105,6 +107,7 @@ class Stock:
         return StockInfo(
             name=self.name,
             code=self.code,
+            period=self.period,
             total_share_capital=self.total_share_capital,
             netprofits=self.netprofits,
             growthrates=self.growthrates,
