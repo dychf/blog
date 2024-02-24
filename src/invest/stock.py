@@ -1,10 +1,11 @@
 import json
 import jsonpath
-import requests
+
 import numpy as np
-from .config import cookies, url, headers
-from .util import price, round_float_attributes
+
+from .util import price, round_float_attributes, request_data
 import attr
+from .config import params_common, params_pe
 
 
 @round_float_attributes
@@ -19,7 +20,8 @@ class StockInfo:
     netprofit_3: float = attr.ib(0)
     growthrates: list[float] = attr.ib(factory=list)
     growthrate_1: float = attr.ib(0)
-    PE: float = attr.ib(0)
+    industry_mean_pe: float = attr.ib(0)
+    industry: str = attr.ib("")
     capitalization: float = attr.ib(0)
     market_price: float = attr.ib(0)
     valuation: float = attr.ib(0)
@@ -35,27 +37,14 @@ class Stock:
     def __init__(self, code):
         self.code = code
         self._get_data()
+        self._industry_mean_pe()
 
     def _get_data(self):
+        # params = params_common.format(code=self.code)
         params = {
-            "openapi": "1",
-            "dspName": "iphone",
-            "tn": "tangram",
-            "client": "app",
-            "query": self.code,
-            "code": self.code,
-            "word": self.code,
-            "resource_id": "5429",
-            "ma_ver": "4",
-            "finClientType": "pc",
+            key: value.format(code=self.code) for key, value in params_common.items()
         }
-        response = requests.get(
-            url, params=params, cookies=cookies, headers=headers
-        ).text
-        # with open("data.json", "w", encoding="utf-8") as f:
-        #     f.write(bytes(response, 'utf-8').decode('unicode_escape'))
-
-        jsonobj = json.loads(response)
+        jsonobj = request_data(params)
 
         # 名称
         name = jsonpath.jsonpath(
@@ -91,7 +80,22 @@ class Stock:
         self.growthrates = FY[0, -3:, 8]  # 近三年归母净利润增长率
         self.period = [str(p) for p in FY[0, -3:, 0]]
 
-    def valuation(self, PE):
+    def _industry_mean_pe(self):
+        params = {key: value.format(code=self.code) for key, value in params_pe.items()}
+        jsonobj = request_data(params)
+        industry_mean_pe = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[0].DisplayData.resultData.tplData.result.industryComparison.list[0].industryMean",
+        )
+        self.industry_mean_pe = float(industry_mean_pe[0])
+
+        industry = jsonpath.jsonpath(
+            jsonobj,
+            "$.Result[0].DisplayData.resultData.tplData.result.industryComparison.list[0].industry",
+        )
+        self.industry = industry[0]
+
+    def valuation(self):
 
         netprofit_1 = np.average(self.netprofits, weights=[0.2, 0.3, 0.5])
 
@@ -100,7 +104,7 @@ class Stock:
         )
 
         netprofit_3 = netprofit_1 * (1 + growthrate_1 * 0.01) ** 3  # 估算三年后利润
-        valuation = netprofit_3 * PE  # 估值
+        valuation = netprofit_3 * self.industry_mean_pe  # 估值
         ideal_buy_v = valuation / 2  # 理想买点
         ideal_sell_v = min(valuation * 1.5, ideal_buy_v * 1.2)  # 理想卖点
 
@@ -108,13 +112,14 @@ class Stock:
             name=self.name,
             code=self.code,
             period=self.period,
+            industry=self.industry,
             total_share_capital=self.total_share_capital,
             netprofits=self.netprofits,
             growthrates=self.growthrates,
             netprofit_1=netprofit_1,
             netprofit_3=netprofit_3,
             growthrate_1=growthrate_1,
-            PE=PE,
+            industry_mean_pe=self.industry_mean_pe,
             capitalization=self.capitalization,
             market_price=self.market_price,
             valuation=valuation,

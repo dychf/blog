@@ -12,6 +12,7 @@ init_md = """
 `更新时间：time`
 
 * 代码：code
+* 所属行业：industry
 * 简介：introduction
 
 ### 利润
@@ -20,15 +21,17 @@ init_md = """
 
 ### 估值
 
-|    日期    |    价格    |    买入    |    卖出    |    年报期    |    
-|:---------:|:---------:|:---------:|:---------:|:---------:|
+|    日期    |    价格    |    买入    |    卖出    |    行业平均PE    |    年报期    |    
+|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 """
 
 
 chart_url_temp = 'https://quickchart.io/chart?c={{"type": "line", "data": {{"labels": {labels}, "datasets": [{{"label": "归母净利润", "data": {data}}}]}}}}'
 
-table_split = "|:---------:|:---------:|:---------:|:---------:|:---------:|"
-table_row_temp = "|{}|{}|{}|{}|{}|"
+table_split = (
+    "|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|"
+)
+table_row_temp = "|{}|{}|{}|{}|{}|{}|"
 
 
 def add_row(date, md, stock):
@@ -42,6 +45,7 @@ def add_row(date, md, stock):
             stock.market_price,
             stock.ideal_buy,
             stock.ideal_sell,
+            stock.industry_mean_pe,
             stock.period[0] + "--" + stock.period[-1],
         )
     )
@@ -54,7 +58,7 @@ def create_md(stock_code):
 
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    stock_info = Stock(stock_code).valuation(17)
+    stock_info = Stock(stock_code).valuation()
 
     file_path = "{}{}.md".format(file_dir, stock_info.name)
 
@@ -66,6 +70,7 @@ def create_md(stock_code):
         md = init_md.replace("name", stock_info.name)
         md = md.replace("time", current_time)
         md = md.replace("code", stock_info.code)
+        md = md.replace("industry", stock_info.industry)
         md = md.replace("introduction", stock_info.name)
         md = md.replace("netprofits_url", chart_url)
     else:
