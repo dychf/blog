@@ -20,25 +20,29 @@ init_md = """
 
 ### 估值
 
-|    日期    |    价格    |    买入    |    卖出    |    
-|:---------:|:---------:|:---------:|:---------:|
+|    日期    |    价格    |    买入    |    卖出    |    年报    |    
+|:---------:|:---------:|:---------:|:---------:|:---------:|
 """
 
 
 chart_url_temp = 'https://quickchart.io/chart?c={{"type": "line", "data": {{"labels": {labels}, "datasets": [{{"label": "归母净利润", "data": {data}}}]}}}}'
 
-table_split = "|:---------:|:---------:|:---------:|:---------:|"
-table_row_temp = "|{}|{}|{}|{}|"
+table_split = "|:---------:|:---------:|:---------:|:---------:|:---------:|"
+table_row_temp = "|{}|{}|{}|{}|{}|"
 
 
 def add_row(date, md, stock):
-    if date in md:
+    if md.count(date) > 1:
         return md
     row = (
         table_split
         + " \n "
         + table_row_temp.format(
-            date, stock.market_price, stock.ideal_buy, stock.ideal_sell
+            date,
+            stock.market_price,
+            stock.ideal_buy,
+            stock.ideal_sell,
+            stock.period[0] + "--" + stock.period[-1],
         )
     )
     return md.replace(table_split, row)
