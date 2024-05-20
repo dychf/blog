@@ -108,7 +108,7 @@ class Stock:
         self.total_share_capital = float(totalShareCapital[0]) / 1e8  # 总股本
         self.capitalization = float(capitalization[0]) / 1e8  # 当前市值
         self.netprofits = [float(p) for p in FY[0, -3:, 7]]  # 近三年归母净利润
-        self.growthrates = FY[0, -3:, 8]  # 近三年归母净利润增长率
+        self.growthrates = FY[0, -3:, 13]  # 近三年归母净利润增长率
         self.period = [str(p) for p in FY[0, -3:, 0]]
         self.avg_price = float(avg_price[0])
         self.max_price = float(max_price[0])
@@ -135,6 +135,84 @@ class Stock:
 
         netprofit_3 = netprofit_1 * (1 + growthrate_1 * 0.01) ** 3  # 估算三年后利润
         valuation = netprofit_3 * self.industry_mean_pe  # 估值
+        ideal_buy_v = valuation / 2  # 理想买点
+        ideal_sell_v = min(valuation * 1.5, ideal_buy_v * 1.2)  # 理想卖点
+
+        return StockInfo(
+            name=self.name,
+            code=self.code,
+            period=self.period,
+            industry=self.industry,
+            total_share_capital=self.total_share_capital,
+            netprofits=self.netprofits,
+            growthrates=self.growthrates,
+            netprofit_1=netprofit_1,
+            netprofit_3=netprofit_3,
+            growthrate_1=growthrate_1,
+            industry_mean_pe=self.industry_mean_pe,
+            capitalization=self.capitalization,
+            market_price=self.market_price,
+            valuation=valuation,
+            valuation_price=price(valuation, self.total_share_capital),
+            ideal_buy_v=ideal_buy_v,
+            ideal_sell_v=ideal_sell_v,
+            ideal_buy=price(ideal_buy_v, self.total_share_capital),
+            ideal_sell=price(ideal_sell_v, self.total_share_capital),
+            avg_price=self.avg_price,
+            max_price=self.max_price,
+            min_price=self.min_price,
+            main_business=self.main_business,
+        )
+
+    def valuation1(self):
+
+        netprofit_1 = np.average(self.netprofits, weights=[0.2, 0.3, 0.5])
+
+        growthrate_1 = np.average(
+            [float(rate) for rate in self.growthrates], weights=[0.2, 0.3, 0.5]
+        )
+
+        netprofit_3 = netprofit_1 * (1 + growthrate_1 * 0.01) ** 3  # 估算三年后利润
+        valuation = (netprofit_3 * 25  + netprofit_3 * 30) * 0.5 # 合理估值
+        ideal_buy_v = valuation / 2  # 理想买点
+        ideal_sell_v = min(valuation * 1.5, ideal_buy_v * 1.2)  # 理想卖点
+
+        return StockInfo(
+            name=self.name,
+            code=self.code,
+            period=self.period,
+            industry=self.industry,
+            total_share_capital=self.total_share_capital,
+            netprofits=self.netprofits,
+            growthrates=self.growthrates,
+            netprofit_1=netprofit_1,
+            netprofit_3=netprofit_3,
+            growthrate_1=growthrate_1,
+            industry_mean_pe=self.industry_mean_pe,
+            capitalization=self.capitalization,
+            market_price=self.market_price,
+            valuation=valuation,
+            valuation_price=price(valuation, self.total_share_capital),
+            ideal_buy_v=ideal_buy_v,
+            ideal_sell_v=ideal_sell_v,
+            ideal_buy=price(ideal_buy_v, self.total_share_capital),
+            ideal_sell=price(ideal_sell_v, self.total_share_capital),
+            avg_price=self.avg_price,
+            max_price=self.max_price,
+            min_price=self.min_price,
+            main_business=self.main_business,
+        )
+
+    def valuation_pe(self, pe):
+
+        netprofit_1 = np.average(self.netprofits, weights=[0.2, 0.3, 0.5])
+
+        growthrate_1 = np.average(
+            [float(rate) for rate in self.growthrates], weights=[0.2, 0.3, 0.5]
+        )
+
+        netprofit_3 = netprofit_1 * (1 + growthrate_1 * 0.01) ** 3  # 估算三年后利润
+        valuation = netprofit_3 * pe   # 合理估值
         ideal_buy_v = valuation / 2  # 理想买点
         ideal_sell_v = min(valuation * 1.5, ideal_buy_v * 1.2)  # 理想卖点
 
